@@ -16,9 +16,13 @@ import { appConfig } from './src/config/app'
 const require = createRequire(import.meta.url)
 const isAliyunESA = Boolean(process.env.AliUid)
 const isTencentEdgeOne = process.env.HOME === '/dev/shm/home' && process.env.TMPDIR === '/dev/shm/tmp'
+const isCloudflare = process.env.BUILD_TARGET === 'cloudflare'
 
 let customPreset: string | undefined
-if (isAliyunESA) {
+if (isCloudflare) {
+  customPreset = 'cloudflare-pages'
+}
+else if (isAliyunESA) {
   // 阿里云 ESA
   customPreset = './preset/aliyun-esa/nitro.config.ts'
 }
